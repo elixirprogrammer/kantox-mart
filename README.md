@@ -1,21 +1,57 @@
-# KantoxMart
+# KantoxMart Made By | [Anthony Gonzalez](https://elixirprogrammer.com "elixirprogrammer.com")
 
-**TODO: Add description**
+Cashier module for shopping cart functionality.
 
-## Installation
+You are the lead programmer for a small chain of supermarkets. You are required to make a simple cashier function that adds products to a cart and displays the total price. You have the following test products registered: 
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `kantox_mart` to your list of dependencies in `mix.exs`:
+| Product code | Name         | Price  |
+| ------------ | ------------ | ------ |
+| GR1          | Green tea    | £3.11  |
+| SR1          | Strawberries | £5.00  |
+| CF1          | Coffee       | £11.23 |
 
-```elixir
-def deps do
-  [
-    {:kantox_mart, "~> 0.1.0"}
-  ]
-end
+Special conditions:
+
+- The CEO is a big fan of buy-one-get-one-free offers and of green tea. He wants us to add a
+rule to do this.
+- The COO, though, likes low prices and wants people buying strawberries to get a price
+discount for bulk purchases. If you buy 3 or more strawberries, the price should drop to £4.50
+per strawberry.
+- The CTO is a coffee addict. If you buy 3 or more coffees, the price of all coffees should drop
+to two thirds of the original price.
+
+Our check-out can scan items in any order, and because the CEO and COO change their minds often, it needs to be flexible regarding our pricing rules. 
+
+Test data:
+
+Basket: GR1,SR1,GR1,GR1,CF1
+
+Total price expected: **£22.45**
+
+Basket: GR1,GR1
+
+Total price expected: **£3.11**
+
+Basket: SR1,SR1,GR1,SR1
+
+Total price expected: **£16.61**
+
+Basket: GR1,CF1,SR1,CF1,CF1
+
+Total price expected: **£30.57**
+
+### Installation and running this solution
+
+#### Project Operating System Dependencies Requirements
+
+This solution was made with Elixir, to run locally the following is needed:
+
+* Elixir 1.13 or later
+* Erlang 22 or later
+
+To run the test:
+
+```sh
+mix test
 ```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/kantox_mart>.
 
