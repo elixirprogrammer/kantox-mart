@@ -11,6 +11,11 @@ defmodule KantoxMartTest do
     KantoxMart.add_to_basket(["GR1"])
     assert "£3.11" = KantoxMart.get_checkout_total()
   end
+
+  test "checks out with each product" do
+    KantoxMart.add_to_basket(["GR1", "SR1", "CR1"])
+    assert "£19.34" = KantoxMart.get_checkout_total()
+  end
   @tag :pending
   test "checks out with tea offer" do
     KantoxMart.add_to_basket(["GR1", "GR1"])

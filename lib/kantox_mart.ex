@@ -4,12 +4,12 @@ defmodule KantoxMart do
   """
 
   @doc """
-  Hello world.
+  Adds product to basket list
 
   ## Examples
 
-      iex> KantoxMart.hello()
-      :world
+      iex> KantoxMart.add_to_basket(["GR1"])
+      :ok
 
   """
   def add_to_basket(products_list) do
@@ -18,6 +18,15 @@ defmodule KantoxMart do
     end)
   end
 
+  @doc """
+  Gets total amount from basket list
+
+  ## Examples
+
+      iex> KantoxMart.get_checkout_total()
+      "£3.11"
+
+  """
   def get_checkout_total() do
     Basket.total()
   end
