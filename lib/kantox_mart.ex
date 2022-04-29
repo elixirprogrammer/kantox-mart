@@ -29,7 +29,7 @@ defmodule KantoxMart do
   """
   def get_checkout_total() do
     total = Basket.total()
-    :ok = Basket.reset()
+    :ok = Basket.empty()
     total
   end
 

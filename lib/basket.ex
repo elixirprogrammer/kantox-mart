@@ -16,7 +16,7 @@ defmodule Basket do
     Agent.get(__MODULE__, & &1)
   end
 
-  def reset() do
+  def empty() do
     Agent.update(__MODULE__, fn products -> [] end)
   end
 
