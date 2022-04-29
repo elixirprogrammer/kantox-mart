@@ -55,3 +55,25 @@ To run the test:
 mix test
 ```
 
+### Modules
+
+**Product** 
+
+Defines a struct for products.
+
+**Inventory** 
+
+Defines a list with registered test products data.
+
+**Basket** 
+
+Handling of the basket and agent to store basket list state.
+
+**PricingRules** 
+
+Applies pricing rules based on prices list.
+
+**KantoxMart** 
+
+Handling of the cashiers actions.
+

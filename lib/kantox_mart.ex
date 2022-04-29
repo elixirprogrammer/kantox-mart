@@ -1,6 +1,6 @@
 defmodule KantoxMart do
   @moduledoc """
-  Documentation for `KantoxMart`.
+  Handling of the cashiers actions.
   """
 
   @doc """
