@@ -49,6 +49,12 @@ This solution was made with Elixir, to run locally the following is needed:
 * Elixir 1.13 or later
 * Erlang 22 or later
 
+Fetch dependencies:
+
+```sh
+mix deps.get
+```
+
 To run the test:
 
 ```sh
