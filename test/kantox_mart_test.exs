@@ -13,7 +13,7 @@ defmodule KantoxMartTest do
     assert "£3.11" = KantoxMart.get_checkout_total()
   end
 
-  test "checks out with each product" do
+  test "checks out for each product" do
     KantoxMart.add_to_basket(["GR1", "SR1", "CF1"])
 
     assert "£19.34" = KantoxMart.get_checkout_total()
