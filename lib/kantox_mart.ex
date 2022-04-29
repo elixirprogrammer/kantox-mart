@@ -28,7 +28,9 @@ defmodule KantoxMart do
 
   """
   def get_checkout_total() do
-    Basket.total()
+    total = Basket.total()
+    :ok = Basket.reset()
+    total
   end
 
   defp get_product_from_inventory(product_code) do
