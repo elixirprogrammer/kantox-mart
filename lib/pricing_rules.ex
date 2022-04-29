@@ -26,18 +26,21 @@ defmodule PrincingRules do
     |> special_condition(:coffee)
   end
 
+  # Removes a green tea price if more than one is bought
   defp special_condition(prices_list, :green_tea) do
     green_tea_quantity = Enum.count(prices_list, &(&1 == 3.11))
 
     green_tea_offer(green_tea_quantity, prices_list)
   end
 
+  # Drops strawberry price to 4.50 if 3 or more bought
   defp special_condition(prices_list, :strawberry) do
     strawberry_quantity = Enum.count(prices_list, &(&1 == 5.00))
 
     strawberry_offer(strawberry_quantity, prices_list)
   end
 
+  # Drops coffee price to two thirds if 3 or more bought
   defp special_condition(prices_list, :coffee) do
     coffee_quantity = Enum.count(prices_list, &(&1 == 11.23))
 
