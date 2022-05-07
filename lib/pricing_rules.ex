@@ -55,21 +55,21 @@ defmodule PrincingRules do
     prices_list
   end
 
-  defp strawberry_offer(green_tea_quantity, prices_list) when green_tea_quantity >= 3 do
+  defp strawberry_offer(strawberry_quantity, prices_list) when strawberry_quantity >= 3 do
     prices_list
     |> Enum.map(& drop_strawberry_price(&1))
   end
 
-  defp strawberry_offer(_green_tea_quantity, prices_list) do
+  defp strawberry_offer(_strawberry_quantity, prices_list) do
     prices_list
   end
 
-  defp coffee_offer(green_tea_quantity, prices_list) when green_tea_quantity >= 3 do
+  defp coffee_offer(coffee_quantity, prices_list) when coffee_quantity >= 3 do
     prices_list
     |> Enum.map(& drop_coffee_price(&1))
   end
 
-  defp coffee_offer(_green_tea_quantity, prices_list) do
+  defp coffee_offer(_coffee_quantity, prices_list) do
     prices_list
   end
 
