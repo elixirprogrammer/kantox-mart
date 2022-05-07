@@ -1,6 +1,6 @@
 defmodule Inventory do
   @moduledoc """
-  This module is defined to registered test products
+  This module is defined to register test products
   """
 
   def get_test_products() do
