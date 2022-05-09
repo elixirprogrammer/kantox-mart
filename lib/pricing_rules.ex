@@ -57,7 +57,7 @@ defmodule PrincingRules do
 
   defp strawberry_offer(strawberry_quantity, prices_list) when strawberry_quantity >= 3 do
     prices_list
-    |> Enum.map(& drop_strawberry_price(&1))
+    |> Enum.map(&drop_strawberry_price(&1))
   end
 
   defp strawberry_offer(_strawberry_quantity, prices_list) do
@@ -66,7 +66,7 @@ defmodule PrincingRules do
 
   defp coffee_offer(coffee_quantity, prices_list) when coffee_quantity >= 3 do
     prices_list
-    |> Enum.map(& drop_coffee_price(&1))
+    |> Enum.map(&drop_coffee_price(&1))
   end
 
   defp coffee_offer(_coffee_quantity, prices_list) do
