@@ -17,7 +17,7 @@ defmodule Basket do
   end
 
   def empty() do
-    Agent.update(__MODULE__, fn products -> [] end)
+    Agent.update(__MODULE__, fn _products -> [] end)
   end
 
   def total() do
