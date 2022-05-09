@@ -12,18 +12,21 @@ defmodule Basket do
     Agent.update(__MODULE__, fn products -> [product | products] end)
   end
 
+  def update(basket_list) do
+    Agent.update(__MODULE__, fn _products -> basket_list end)
+  end
+
   def get() do
     Agent.get(__MODULE__, & &1)
   end
 
   def empty() do
-    Agent.update(__MODULE__, fn products -> [] end)
+    Agent.update(__MODULE__, fn _products -> [] end)
   end
 
   def total() do
-    get()
+    PrincingRules.apply_offers()
     |> Enum.map(fn %{price: price} -> price end)
-    |> PrincingRules.apply_offers()
     |> Enum.sum()
     |> Currency.number_to_currency(unit: "£")
   end
