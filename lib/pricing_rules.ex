@@ -37,7 +37,7 @@ defmodule PrincingRules do
     Basket.get()
   end
 
-  # Removes a green tea price if more than one is bought
+  # Removes a green tea product from basket list if more than one is bought
   defp special_condition(:green_tea) do
     basket_list = Basket.get()
     green_tea_quantity = Enum.count(basket_list, &(&1.price == 3.11))
@@ -45,7 +45,7 @@ defmodule PrincingRules do
     if green_tea_quantity > 1, do: green_tea_offer(basket_list)
   end
 
-  # Drops strawberry price to 4.50 if 3 or more bought
+  # Drops strawberry price to 4.50 for each product in basket list if 3 or more bought
   defp special_condition(:strawberry) do
     basket_list = Basket.get()
     strawberry_quantity = Enum.count(basket_list, &(&1.price == 5.00))
@@ -53,7 +53,7 @@ defmodule PrincingRules do
     if strawberry_quantity >= 3, do: strawberry_offer(basket_list)
   end
 
-  # Drops coffee price to two thirds if 3 or more bought
+  # Drops coffee price to two thirds for each product in basket list if 3 or more bought
   defp special_condition(:coffee) do
     basket_list = Basket.get()
     coffee_quantity = Enum.count(basket_list, &(&1.price == 11.23))
