@@ -3,7 +3,7 @@ defmodule PrincingRules do
   Defined to apply pricing rules
   """
 
-  @offers [:green_tea, :strawberry, :coffee]
+  @offers [:green_tea, :strawberries, :coffee]
 
   @doc """
   Applies defined offers for each product inside basket list, then updates the basket list state
@@ -46,11 +46,11 @@ defmodule PrincingRules do
   end
 
   # Drops strawberry price to 4.50 for each product in basket list if 3 or more bought
-  defp special_condition(:strawberry) do
+  defp special_condition(:strawberries) do
     basket_list = Basket.get()
-    strawberry_quantity = Enum.count(basket_list, &(&1.price == 5.00))
+    strawberries_quantity = Enum.count(basket_list, &(&1.price == 5.00))
 
-    if strawberry_quantity >= 3, do: strawberry_offer(basket_list)
+    if strawberries_quantity >= 3, do: strawberries_offer(basket_list)
   end
 
   # Drops coffee price to two thirds for each product in basket list if 3 or more bought
@@ -67,9 +67,9 @@ defmodule PrincingRules do
     |> Basket.update()
   end
 
-  defp strawberry_offer(basket_list) do
+  defp strawberries_offer(basket_list) do
     basket_list
-    |> Enum.map(&drop_strawberry_price(&1))
+    |> Enum.map(&drop_strawberries_price(&1))
     |> Basket.update()
   end
 
@@ -79,8 +79,8 @@ defmodule PrincingRules do
     |> Basket.update()
   end
 
-  defp drop_strawberry_price(product) when product.price == 5.00, do: %{product | price: 4.50}
-  defp drop_strawberry_price(product), do: product
+  defp drop_strawberries_price(product) when product.price == 5.00, do: %{product | price: 4.50}
+  defp drop_strawberries_price(product), do: product
 
   defp drop_coffee_price(product) when product.price == 11.23, do: %{product | price: 11.23 / 3 * 2}
   defp drop_coffee_price(product), do: product

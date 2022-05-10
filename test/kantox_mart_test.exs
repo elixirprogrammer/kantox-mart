@@ -36,7 +36,7 @@ defmodule KantoxMartTest do
       assert "£3.11" = KantoxMart.get_checkout_total()
     end
 
-    test "checks out with strawberry offer" do
+    test "checks out with strawberries offer" do
       KantoxMart.add_to_basket(["SR1", "SR1", "GR1", "SR1"])
 
       assert "£16.61" = KantoxMart.get_checkout_total()
