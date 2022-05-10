@@ -11,7 +11,7 @@ defmodule PricingRulesTest do
     assert [3.11] = PrincingRules.apply_offers([3.11])
   end
 
-  test "strawberry offer" do
+  test "strawberries offer" do
     assert [4.50, 4.50, 4.50] = PrincingRules.apply_offers([5.00, 5.00, 5.00])
 
     assert [4.50, 4.50, 4.50, 4.50] = PrincingRules.apply_offers([5.00, 5.00, 5.00, 5.00])

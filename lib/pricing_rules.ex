@@ -22,7 +22,7 @@ defmodule PrincingRules do
   def apply_offers(prices_list) do
     prices_list
     |> special_condition(:green_tea)
-    |> special_condition(:strawberry)
+    |> special_condition(:strawberries)
     |> special_condition(:coffee)
   end
 
@@ -33,11 +33,11 @@ defmodule PrincingRules do
     green_tea_offer(green_tea_quantity, prices_list)
   end
 
-  # Drops strawberry price to 4.50 if 3 or more bought
-  defp special_condition(prices_list, :strawberry) do
-    strawberry_quantity = Enum.count(prices_list, &(&1 == 5.00))
+  # Drops strawberries price to 4.50 if 3 or more bought
+  defp special_condition(prices_list, :strawberries) do
+    strawberries_quantity = Enum.count(prices_list, &(&1 == 5.00))
 
-    strawberry_offer(strawberry_quantity, prices_list)
+    strawberries_offer(strawberries_quantity, prices_list)
   end
 
   # Drops coffee price to two thirds if 3 or more bought
@@ -55,12 +55,12 @@ defmodule PrincingRules do
     prices_list
   end
 
-  defp strawberry_offer(strawberry_quantity, prices_list) when strawberry_quantity >= 3 do
+  defp strawberries_offer(strawberries_quantity, prices_list) when strawberries_quantity >= 3 do
     prices_list
-    |> Enum.map(&drop_strawberry_price(&1))
+    |> Enum.map(&drop_strawberries_price(&1))
   end
 
-  defp strawberry_offer(_strawberry_quantity, prices_list) do
+  defp strawberries_offer(_strawberries_quantity, prices_list) do
     prices_list
   end
 
@@ -73,8 +73,8 @@ defmodule PrincingRules do
     prices_list
   end
 
-  defp drop_strawberry_price(price) when price == 5.00, do: 4.50
-  defp drop_strawberry_price(price), do: price
+  defp drop_strawberries_price(price) when price == 5.00, do: 4.50
+  defp drop_strawberries_price(price), do: price
 
   defp drop_coffee_price(price) when price == 11.23, do: 11.23 / 3 * 2
   defp drop_coffee_price(price), do: price
