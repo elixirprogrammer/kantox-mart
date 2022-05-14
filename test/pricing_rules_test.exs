@@ -1,44 +1,191 @@
 defmodule PricingRulesTest do
   use ExUnit.Case
 
-  test "green tee offer" do
-    assert [3.11] = PrincingRules.apply_offers([3.11, 3.11])
+  setup do
+    products = %{
+      green_tea: %Product{code: "GR1", name: "Green tea", price: 3.11},
+      strawberries: %Product{code: "SR1", name: "Strawberries", price: 5.00},
+      strawberries_discount: %Product{code: "SR1", name: "Strawberries", price: 4.50},
+      coffee: %Product{code: "CF1", name: "Coffee", price: 11.23},
+      coffee_discount: %Product{code: "CF1", name: "Coffee", price: 7.486666666666667}
+    }
 
-    assert [3.11, 3.11] = PrincingRules.apply_offers([3.11, 3.11, 3.11])
-
-    assert [3.11, 3.11, 3.11] = PrincingRules.apply_offers([3.11, 3.11, 3.11, 3.11])
-
-    assert [3.11] = PrincingRules.apply_offers([3.11])
+    %{products: products}
   end
 
-  test "strawberries offer" do
-    assert [4.50, 4.50, 4.50] = PrincingRules.apply_offers([5.00, 5.00, 5.00])
+  describe "green tee offer" do
+    test "applies offer with 2 green tee products in the basket", %{products: products} do
+      basket = [
+        products.green_tea,
+        products.green_tea
+      ]
+      expected_basket = [products.green_tea]
 
-    assert [4.50, 4.50, 4.50, 4.50] = PrincingRules.apply_offers([5.00, 5.00, 5.00, 5.00])
+      assert ^expected_basket = PricingRules.apply_offers(basket)
+    end
 
-    assert [5.00, 5.00] = PrincingRules.apply_offers([5.00, 5.00])
+    test "applies offer with 3 green tee products in the basket", %{products: products} do
+      basket = [
+        products.green_tea,
+        products.green_tea,
+        products.green_tea
+      ]
+      expected_basket = [
+        products.green_tea,
+        products.green_tea
+      ]
+
+      assert ^expected_basket = PricingRules.apply_offers(basket)
+    end
+
+    test "applies offer with 4 green tee products in the basket", %{products: products} do
+      basket = [
+        products.green_tea,
+        products.green_tea,
+        products.green_tea,
+        products.green_tea
+      ]
+      expected_basket = [
+        products.green_tea,
+        products.green_tea,
+        products.green_tea
+      ]
+
+      assert ^expected_basket = PricingRules.apply_offers(basket)
+    end
+
+    test "applies offer with 1 green tee product in the basket", %{products: products} do
+      basket = [products.green_tea]
+      expected_basket = basket
+
+      assert ^expected_basket = PricingRules.apply_offers(basket)
+    end
   end
 
-  test "coffee offer" do
-    assert [7.486666666666667, 7.486666666666667, 7.486666666666667] =
-             PrincingRules.apply_offers([11.23, 11.23, 11.23])
+  describe "strawberries offer" do
+    test "applies offer with 3 strawberries in the basket", %{products: products} do
+      basket = [
+        products.strawberries,
+        products.strawberries,
+        products.strawberries
+      ]
+      expected_basket = [
+        products.strawberries_discount,
+        products.strawberries_discount,
+        products.strawberries_discount
+      ]
 
-    assert [7.486666666666667, 7.486666666666667, 7.486666666666667, 7.486666666666667] =
-             PrincingRules.apply_offers([11.23, 11.23, 11.23, 11.23])
+      assert ^expected_basket = PricingRules.apply_offers(basket)
+    end
 
-    assert [11.23, 11.23] = PrincingRules.apply_offers([11.23, 11.23])
+    test "applies offer with 4 strawberries in the basket", %{products: products} do
+      basket = [
+        products.strawberries,
+        products.strawberries,
+        products.strawberries,
+        products.strawberries
+      ]
+      expected_basket = [
+        products.strawberries_discount,
+        products.strawberries_discount,
+        products.strawberries_discount,
+        products.strawberries_discount
+      ]
+
+      assert ^expected_basket = PricingRules.apply_offers(basket)
+    end
+
+    test "doesn't apply offer with 2 strawberries in the basket", %{products: products} do
+      basket = [
+        products.strawberries,
+        products.strawberries
+      ]
+      expected_basket = basket
+
+      assert ^expected_basket = PricingRules.apply_offers(basket)
+    end
   end
 
-  test "all offers" do
-    prices = [3.11, 3.11, 5.00, 5.00, 5.00, 11.23, 11.23, 11.23]
-    expected = [3.11, 4.50, 4.50, 4.50, 7.486666666666667, 7.486666666666667, 7.486666666666667]
+  describe "coffee offer" do
+    test "applies offer with 3 coffee in the basket", %{products: products} do
+      basket = [
+        products.coffee,
+        products.coffee,
+        products.coffee
+      ]
+      expected_basket = [
+        products.coffee_discount,
+        products.coffee_discount,
+        products.coffee_discount
+      ]
 
-    assert PrincingRules.apply_offers(prices) == expected
+      assert ^expected_basket = PricingRules.apply_offers(basket)
+    end
+
+    test "applies offer with 4 coffee in the basket", %{products: products} do
+      basket = [
+        products.coffee,
+        products.coffee,
+        products.coffee,
+        products.coffee
+      ]
+      expected_basket = [
+        products.coffee_discount,
+        products.coffee_discount,
+        products.coffee_discount,
+        products.coffee_discount
+      ]
+
+      assert ^expected_basket = PricingRules.apply_offers(basket)
+    end
+
+    test "doesn't apply offer with 2 coffee in the basket", %{products: products} do
+      basket = [
+        products.coffee,
+        products.coffee
+      ]
+      expected_basket = basket
+
+      assert ^expected_basket = PricingRules.apply_offers(basket)
+    end
   end
 
-  test "no offers" do
-    assert [3] = PrincingRules.apply_offers([3])
+  test "all offers", %{products: products} do
+    basket = [
+      products.green_tea,
+      products.green_tea,
+      products.strawberries,
+      products.strawberries,
+      products.strawberries,
+      products.coffee,
+      products.coffee,
+      products.coffee
 
-    assert [3.11, 5.00, 11.23] = PrincingRules.apply_offers([3.11, 5.00, 11.23])
+    ]
+
+    expected_basket = [
+      products.green_tea,
+      products.strawberries_discount,
+      products.strawberries_discount,
+      products.strawberries_discount,
+      products.coffee_discount,
+      products.coffee_discount,
+      products.coffee_discount
+
+    ]
+
+    assert ^expected_basket = PricingRules.apply_offers(basket)
+  end
+
+  test "no offers", %{products: products} do
+    basket = [
+      products.green_tea,
+      products.strawberries,
+      products.coffee
+    ]
+
+    expected_basket = basket
+
+    assert ^expected_basket = PricingRules.apply_offers(basket)
   end
 end

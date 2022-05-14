@@ -22,8 +22,8 @@ defmodule Basket do
 
   def total() do
     get()
+    |> PricingRules.apply_offers()
     |> Enum.map(fn %{price: price} -> price end)
-    |> PrincingRules.apply_offers()
     |> Enum.sum()
     |> Currency.number_to_currency(unit: "£")
   end

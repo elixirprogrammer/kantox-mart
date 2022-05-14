@@ -1,4 +1,4 @@
-defmodule PrincingRules do
+defmodule PricingRules do
   @moduledoc """
   Defined to apply pricing rules
   """
@@ -13,79 +13,112 @@ defmodule PrincingRules do
   @coffee_price_discount @coffee_price / 3 * 2
 
   @doc """
-  Applies defined offers based on prices list.
+  Applies defined offers to prices of products.
 
   ## Examples
+      iex> products = [
+        %Product{code: "GR1", name: "Green tea", price: 3.11},
+        %Product{code: "GR1", name: "Green tea", price: 3.11}
+      ]
+      iex> PrincingRules.apply_offers(products)
+      [%Product{code: "GR1", name: "Green tea", price: 3.11}]
 
-      iex> PrincingRules.apply_offers([3.11, 3.11])
-      [3.11]
+      iex> products = [
+        %Product{code: "SR1", name: "Strawberries", price: 5.00},
+        %Product{code: "SR1", name: "Strawberries", price: 5.00},
+        %Product{code: "SR1", name: "Strawberries", price: 5.00}
+      ]
+      iex> PrincingRules.apply_offers(products)
+      [
+        %Product{code: "SR1", name: "Strawberries", price: 4.50},
+        %Product{code: "SR1", name: "Strawberries", price: 4.50},
+        %Product{code: "SR1", name: "Strawberries", price: 4.50}
+      ]
 
-      iex> PrincingRules.apply_offers([5.00, 5.00, 5.00])
-      [4.50, 4.50, 4.50]
-
-      iex> PrincingRules.apply_offers([11.23, 11.23, 11.23])
-      [7.486666666666667, 7.486666666666667, 7.486666666666667]
+      iex> products = [
+        %Product{code: "CF1", name: "Coffee", price: 11.23},
+        %Product{code: "CF1", name: "Coffee", price: 11.23},
+        %Product{code: "CF1", name: "Coffee", price: 11.23}
+      ]
+      iex> PrincingRules.apply_offers(products)
+      [
+        %Product{code: "CF1", name: "Coffee", price: 7.486666666666667},
+        %Product{code: "CF1", name: "Coffee", price: 7.486666666666667},
+        %Product{code: "CF1", name: "Coffee", price: 7.486666666666667}
+      ]
 
   """
-  @spec apply_offers(prices_list :: list()) :: list()
-  def apply_offers(prices_list) do
-    prices_list = special_condition(:green_tea, prices_list)
-    prices_list = special_condition(:strawberries, prices_list)
-    special_condition(:coffee, prices_list)
+  @spec apply_offers(products :: list()) :: list()
+  def apply_offers(products) do
+    products = special_condition(:green_tea, products)
+    products = special_condition(:strawberries, products)
+    special_condition(:coffee, products)
   end
 
-  # Removes a green tea price if more than one is bought
-  defp special_condition(:green_tea, prices_list) do
-    green_tea_quantity = Enum.count(prices_list, &(&1 == @green_tea_price))
+  # Removes a green tea product if more than one is bought
+  defp special_condition(:green_tea, products) do
+    green_tea_quantity =
+      Enum.count(products, fn product ->
+        product.price == @green_tea_price
+      end)
 
-    green_tea_offer(green_tea_quantity, prices_list)
+    green_tea_offer(green_tea_quantity, products)
   end
 
   # Drops strawberries price to 4.50 if 3 or more bought
-  defp special_condition(:strawberries, prices_list) do
-    strawberries_quantity = Enum.count(prices_list, &(&1 == @strawberries_price))
+  defp special_condition(:strawberries, products) do
+    strawberries_quantity =
+      Enum.count(products, fn product ->
+        product.price == @strawberries_price
+      end)
 
-    strawberries_offer(strawberries_quantity, prices_list)
+    strawberries_offer(strawberries_quantity, products)
   end
 
   # Drops coffee price to two thirds if 3 or more bought
-  defp special_condition(:coffee, prices_list) do
-    coffee_quantity = Enum.count(prices_list, &(&1 == @coffee_price))
+  defp special_condition(:coffee, products) do
+    coffee_quantity =
+      Enum.count(products, fn product ->
+        product.price == @coffee_price
+      end)
 
-    coffee_offer(coffee_quantity, prices_list)
+    coffee_offer(coffee_quantity, products)
   end
 
-  defp green_tea_offer(green_tea_quantity, prices_list) when green_tea_quantity > 1 do
-    List.delete(prices_list, @green_tea_price)
+  defp green_tea_offer(green_tea_quantity, products) when green_tea_quantity > 1 do
+    List.delete(products, %Product{code: "GR1", name: "Green tea", price: @green_tea_price})
   end
 
-  defp green_tea_offer(_green_tea_quantity, prices_list) do
-    prices_list
+  defp green_tea_offer(_green_tea_quantity, products) do
+    products
   end
 
-  defp strawberries_offer(strawberries_quantity, prices_list) when strawberries_quantity >= 3 do
-    prices_list
+  defp strawberries_offer(strawberries_quantity, products) when strawberries_quantity >= 3 do
+    products
     |> Enum.map(&drop_strawberries_price(&1))
   end
 
-  defp strawberries_offer(_strawberries_quantity, prices_list) do
-    prices_list
+  defp strawberries_offer(_strawberries_quantity, products) do
+    products
   end
 
-  defp coffee_offer(coffee_quantity, prices_list) when coffee_quantity >= 3 do
-    prices_list
+  defp coffee_offer(coffee_quantity, products) when coffee_quantity >= 3 do
+    products
     |> Enum.map(&drop_coffee_price(&1))
   end
 
-  defp coffee_offer(_coffee_quantity, prices_list) do
-    prices_list
+  defp coffee_offer(_coffee_quantity, products) do
+    products
   end
 
-  defp drop_strawberries_price(price) when price == @strawberries_price do
-    @strawberries_price_discount
+  defp drop_strawberries_price(product) when product.price == @strawberries_price do
+    %{product | price: @strawberries_price_discount}
   end
-  defp drop_strawberries_price(price), do: price
 
-  defp drop_coffee_price(price) when price == @coffee_price, do: @coffee_price_discount
-  defp drop_coffee_price(price), do: price
+  defp drop_strawberries_price(product), do: product
+
+  defp drop_coffee_price(product) when product.price == @coffee_price do
+    %{product | price: @coffee_price_discount}
+  end
+  defp drop_coffee_price(product), do: product
 end
