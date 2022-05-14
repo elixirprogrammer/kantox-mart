@@ -12,6 +12,8 @@ defmodule PricingRules do
   @strawberries_price_discount 4.50
   @coffee_price_discount @coffee_price / 3 * 2
 
+  @offers [:green_tea, :strawberries, :coffee]
+
   @doc """
   Applies defined offers to prices of products.
 
@@ -50,9 +52,10 @@ defmodule PricingRules do
   """
   @spec apply_offers(products :: list()) :: list()
   def apply_offers(products) do
-    products = special_condition(:green_tea, products)
-    products = special_condition(:strawberries, products)
-    special_condition(:coffee, products)
+    @offers
+    |> Enum.reduce(products, fn offer, result ->
+      special_condition(offer, result)
+    end)
   end
 
   # Removes a green tea product if more than one is bought
@@ -88,27 +91,32 @@ defmodule PricingRules do
   defp green_tea_offer(green_tea_quantity, products) when green_tea_quantity > 1 do
     List.delete(products, %Product{code: "GR1", name: "Green tea", price: @green_tea_price})
   end
+
   defp green_tea_offer(_green_tea_quantity, products), do: products
 
   defp strawberries_offer(strawberries_quantity, products) when strawberries_quantity >= 3 do
     products
     |> Enum.map(&drop_strawberries_price(&1))
   end
+
   defp strawberries_offer(_strawberries_quantity, products), do: products
 
   defp coffee_offer(coffee_quantity, products) when coffee_quantity >= 3 do
     products
     |> Enum.map(&drop_coffee_price(&1))
   end
+
   defp coffee_offer(_coffee_quantity, products), do: products
 
   defp drop_strawberries_price(product) when product.price == @strawberries_price do
     %{product | price: @strawberries_price_discount}
   end
+
   defp drop_strawberries_price(product), do: product
 
   defp drop_coffee_price(product) when product.price == @coffee_price do
     %{product | price: @coffee_price_discount}
   end
+
   defp drop_coffee_price(product), do: product
 end
