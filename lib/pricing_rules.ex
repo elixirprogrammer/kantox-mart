@@ -88,33 +88,23 @@ defmodule PricingRules do
   defp green_tea_offer(green_tea_quantity, products) when green_tea_quantity > 1 do
     List.delete(products, %Product{code: "GR1", name: "Green tea", price: @green_tea_price})
   end
-
-  defp green_tea_offer(_green_tea_quantity, products) do
-    products
-  end
+  defp green_tea_offer(_green_tea_quantity, products), do: products
 
   defp strawberries_offer(strawberries_quantity, products) when strawberries_quantity >= 3 do
     products
     |> Enum.map(&drop_strawberries_price(&1))
   end
-
-  defp strawberries_offer(_strawberries_quantity, products) do
-    products
-  end
+  defp strawberries_offer(_strawberries_quantity, products), do: products
 
   defp coffee_offer(coffee_quantity, products) when coffee_quantity >= 3 do
     products
     |> Enum.map(&drop_coffee_price(&1))
   end
-
-  defp coffee_offer(_coffee_quantity, products) do
-    products
-  end
+  defp coffee_offer(_coffee_quantity, products), do: products
 
   defp drop_strawberries_price(product) when product.price == @strawberries_price do
     %{product | price: @strawberries_price_discount}
   end
-
   defp drop_strawberries_price(product), do: product
 
   defp drop_coffee_price(product) when product.price == @coffee_price do
