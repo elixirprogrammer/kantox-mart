@@ -33,6 +33,7 @@ defmodule KantoxMart do
     total
   end
 
+  @spec get_product_from_inventory(prouct_code :: bitstring()) :: struct()
   defp get_product_from_inventory(product_code) do
     Inventory.get_test_products()
     |> Enum.find(fn %{code: code} -> code == product_code end)
