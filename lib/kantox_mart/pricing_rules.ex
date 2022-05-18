@@ -1,7 +1,9 @@
-defmodule PricingRules do
+defmodule KantoxMart.PricingRules do
   @moduledoc """
   Defined to apply pricing rules
   """
+
+  alias KantoxMart.Product
 
   # Products Prices
   @green_tea_price 3.11

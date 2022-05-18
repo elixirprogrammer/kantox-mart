@@ -1,6 +1,9 @@
 defmodule PricingRulesTest do
   use ExUnit.Case
 
+  alias KantoxMart.Product
+  alias KantoxMart.PricingRules
+
   setup do
     products = %{
       green_tea: %Product{code: "GR1", name: "Green tea", price: 3.11},

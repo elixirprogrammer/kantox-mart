@@ -1,7 +1,9 @@
-defmodule Inventory do
+defmodule KantoxMart.Inventory do
   @moduledoc """
   This module is defined to register test products
   """
+
+  alias KantoxMart.Product
 
   def get_test_products() do
     [

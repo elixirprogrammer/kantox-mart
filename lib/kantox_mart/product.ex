@@ -1,4 +1,4 @@
-defmodule Product do
+defmodule KantoxMart.Product do
   @moduledoc """
   This modules is defined to structure a product.
   """

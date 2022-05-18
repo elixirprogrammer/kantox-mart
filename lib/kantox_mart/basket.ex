@@ -1,8 +1,9 @@
-defmodule Basket do
+defmodule KantoxMart.Basket do
   @moduledoc """
   Defined for basket handling.
   """
   alias Number.Currency
+  alias KantoxMart.PricingRules
 
   def start_link() do
     Agent.start_link(fn -> [] end, name: __MODULE__)

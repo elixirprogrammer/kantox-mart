@@ -1,6 +1,9 @@
 defmodule BasketTest do
   use ExUnit.Case
 
+  alias KantoxMart.Basket
+  alias KantoxMart.Product
+
   setup do
     assert {:ok, _pid} = Basket.start_link
 

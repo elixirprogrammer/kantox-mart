@@ -3,6 +3,9 @@ defmodule KantoxMart do
   Handling of the cashiers actions.
   """
 
+  alias KantoxMart.Basket
+  alias KantoxMart.Inventory
+
   @doc """
   Adds product to basket list
 
