@@ -27,11 +27,17 @@ defmodule KantoxMart.Cashier do
   defp start_cashier_worker({:ok, _pid}), do: :ok
   defp start_cashier_worker(error), do: error
 
-  @spec start_child(name :: bitstring()) :: :ok | {:error, any()}
+  @spec {:ok, pid()}
+        | {:ok, pid(), info :: term()}
+        | :ignore
+        | {:error, {:already_started, pid()} | :max_children | term()}
   defp start_child(name) do
     via_tuple = {Basket, name: via_tuple(name)}
-    via_tuple_stash = {BasketStash, name: {:via, Registry, {KantoxMart.BasketStashRegistry, name}}}
+
+    via_tuple_stash =
+      {BasketStash, name: {:via, Registry, {KantoxMart.BasketStashRegistry, name}}}
+
     DynamicSupervisor.start_child(__MODULE__, via_tuple_stash)
-    DynamicSupervisor.start_child(__MODULE__, via_tuple) |> IO.inspect
+    DynamicSupervisor.start_child(__MODULE__, via_tuple)
   end
 end

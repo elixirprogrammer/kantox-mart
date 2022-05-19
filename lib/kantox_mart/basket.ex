@@ -17,6 +17,7 @@ defmodule KantoxMart.Basket do
     {:ok, {:via, Registry, {KantoxMart.CashierRegistry, cashier}}} = Keyword.fetch(options, :name)
     GenServer.start_link(__MODULE__, cashier, options)
   end
+
   @spec add(cashier :: bitstring(), products_list :: list()) :: :ok
   def add(cashier, products_list) do
     Enum.each(products_list, fn product_code ->
