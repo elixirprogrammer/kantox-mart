@@ -27,10 +27,11 @@ defmodule KantoxMart.Cashier do
   defp start_cashier_worker({:ok, _pid}), do: :ok
   defp start_cashier_worker(error), do: error
 
-  @spec {:ok, pid()}
-        | {:ok, pid(), info :: term()}
-        | :ignore
-        | {:error, {:already_started, pid()} | :max_children | term()}
+  @spec start_child(name :: bitstring()) ::
+          {:ok, pid()}
+          | {:ok, pid(), info :: term()}
+          | :ignore
+          | {:error, {:already_started, pid()} | :max_children | term()}
   defp start_child(name) do
     via_tuple = {Basket, name: via_tuple(name)}
 
